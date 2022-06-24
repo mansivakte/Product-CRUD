@@ -3,3 +3,4 @@
 \migrations
 \app\user\__pycache__
 \app\product\__pycache__
+\app\data_sqlite.sqlite3
