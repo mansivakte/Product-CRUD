@@ -7,6 +7,7 @@ class Product(db.Model):
     description = db.Column(db.Text)
     quantity = db.Column(db.Integer)
     price = db.Column(db.Integer)
+    imagepath = db.Column(db.String(80))
     created_by = db.Column(db.Integer, default = 0)
     created_date = db.Column(db.DateTime(timezone=True),default=datetime.datetime.utcnow)
     updated_by = db.Column(db.Integer, default = 0)
@@ -15,11 +16,12 @@ class Product(db.Model):
     is_deleted = db.Column(db.Boolean, default=False)
     
 
-    def __init__(self,name,description, quantity, price):
+    def __init__(self,name,description, quantity, price, imagepath):
         self.name = name
         self.description = description
         self.quantity = quantity
         self.price = price
+        self.imagepath = imagepath
 
     def __repr__(self):
-        return f'<User id:{self.id} name:{self.name} description:{self.description} quantity:{self.quantity} price:{self.price}>'
+        return f'<User id:{self.id} name:{self.name} description:{self.description} quantity:{self.quantity} price:{self.price} imagepath:{self.imagepath}>'

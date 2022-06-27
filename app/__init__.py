@@ -8,7 +8,7 @@ from .db import db
 from .user.view import user_blueprint
 from .product.view import product_blueprint
 
-app = Flask(__name__)
+app = Flask(__name__,static_folder='uploads')
 CORS(app)
 basedir = os.path.abspath(os.path.dirname(__file__))
 

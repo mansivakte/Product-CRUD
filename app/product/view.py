@@ -1,8 +1,10 @@
+import os
 import datetime
 from flask import Blueprint, request
 from .model import Product
 from app.db import db
 from app.common import loginRequired, adminlogin
+from werkzeug.utils import secure_filename
 
 product_blueprint = Blueprint('product_blueprint', __name__)
 
@@ -11,7 +13,7 @@ product_blueprint = Blueprint('product_blueprint', __name__)
 @adminlogin
 def createProduct(userid):
     payload = request.json
-    product = Product(name = payload['name'],description = payload['description'], quantity = payload['quantity'], price = payload['price'])
+    product = Product(name = payload['name'],description = payload['description'], quantity = payload['quantity'], price = payload['price'], imagepath = payload['imagepath'])
     product.created_by= userid
     db.session.add(product)
     db.session.commit()
@@ -30,6 +32,7 @@ def getAllProducts():
                 'description':i.description,
                 'quantity':i.quantity,
                 'price':i.price,
+                'imagepath': i.imagepath,
                 'created_by':i.created_by,
                 'created_date':i.created_date,
                 'updated_by':i.updated_by,
@@ -55,6 +58,7 @@ def getProductbyId(id):
                 'description':product.description,
                 'quantity':product.quantity,
                 'price':product.price,
+                'imagepath': product.imagepath,
                 'created_by':product.created_by,
                 'created_date':product.created_date,
                 'updated_by':product.updated_by,
@@ -99,3 +103,14 @@ def deleteProduct(userid,id):
         print("delere error", e) 
         return {'status': False, 'message':'something went wrong', 'data':None }
 
+@product_blueprint.route('/product/upload', methods=['POST'])
+@adminlogin
+def upload():
+    file = request.files['image']
+    print(file)
+    if file:
+        filename = secure_filename(file.filename)
+        print("filename: ",os.path.join('/uploads'))
+        file.save(os.path.join('app','uploads',filename))
+    return {'imagepath': '/product/upload/'+filename}
+   
