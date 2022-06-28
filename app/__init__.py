@@ -7,6 +7,8 @@ from flask_bcrypt import Bcrypt
 from .db import db
 from .user.view import user_blueprint
 from .product.view import product_blueprint
+from .order.view import order_blueprint
+from .orderdetails.view import orderdetails_blueprint
 
 app = Flask(__name__,static_folder='uploads')
 CORS(app)
@@ -21,3 +23,5 @@ bcrypt = Bcrypt(app)
 
 app.register_blueprint(user_blueprint)
 app.register_blueprint(product_blueprint)
+app.register_blueprint(order_blueprint)
+app.register_blueprint(orderdetails_blueprint)

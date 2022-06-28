@@ -24,4 +24,4 @@ class Product(db.Model):
         self.imagepath = imagepath
 
     def __repr__(self):
-        return f'<User id:{self.id} name:{self.name} description:{self.description} quantity:{self.quantity} price:{self.price} imagepath:{self.imagepath}>'
+        return f'<Product id:{self.id} name:{self.name} description:{self.description} quantity:{self.quantity} price:{self.price} imagepath:{self.imagepath}>'

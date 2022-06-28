@@ -19,7 +19,7 @@ def loginRequired(fun):
             else:
                 return " 2....Unauthorized user"
         except Exception as e: 
-            print(e)
+            print("erroe msg : ", e)
             return " 3....Unauthorized user"
     return innerFun
 

@@ -64,16 +64,16 @@ def dashboard(id):
     return "User Dashboard Page"
 
 
-#User Order 
-@user_blueprint.route('/order', methods=['GET'])
-def order():
-    try:
-        decode = jwt.decode(request.headers['Authorization'], "abc", algorithms=["HS256"])
-        if decode:
-            return {"Message": 'Authorized user of id '+ str(decode['id'])}, 200
-        else:
-            return {"Message": "Unauthorized user"}, 401
-    except:
-        return {"Message": "Unauthorized user"}, 401
+# #User Order 
+# @user_blueprint.route('/userorder', methods=['GET'])
+# def order():
+#     try:
+#         decode = jwt.decode(request.headers['Authorization'], "abc", algorithms=["HS256"])
+#         if decode:
+#             return {"Message": 'Authorized user of id '+ str(decode['id'])}, 200
+#         else:
+#             return {"Message": "Unauthorized user"}, 401
+#     except:
+#         return {"Message": "Unauthorized user"}, 401
 
 
