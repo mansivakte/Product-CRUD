@@ -1,5 +1,4 @@
 import os
-import bcrypt
 from flask import Flask
 from flask_migrate import Migrate
 from flask_cors import CORS
@@ -10,7 +9,7 @@ from .product.view import product_blueprint
 from .order.view import order_blueprint
 from .orderdetails.view import orderdetails_blueprint
 
-app = Flask(__name__,static_folder='uploads')
+app = Flask(__name__, static_folder='uploads')
 CORS(app)
 basedir = os.path.abspath(os.path.dirname(__file__))
 
