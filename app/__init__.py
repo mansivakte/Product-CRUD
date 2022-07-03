@@ -10,12 +10,13 @@ from .order.view import order_blueprint
 from .orderdetails.view import orderdetails_blueprint
 
 app = Flask(__name__, static_folder='uploads')
-CORS(app)
+
 basedir = os.path.abspath(os.path.dirname(__file__))
 
 app.config['SQLALCHEMY_DATABASE_URI']='sqlite:///'+ os.path.join(basedir, 'data_sqlite.sqlite3')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS']= False
 
+CORS(app)
 db.init_app(app)
 migrate = Migrate(app,db)
 bcrypt = Bcrypt(app)

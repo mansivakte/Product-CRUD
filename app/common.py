@@ -4,8 +4,11 @@ from app.user.model import User
 from app.product.model import Product
 from functools import wraps
 
+#defining decorator
 def loginRequired(fun):
     @wraps(fun)
+
+    #innerFun is a wrapper fuction in which argument is called
     def innerFun(*args, **kwargs):
         try:
             token = request.headers['Authorization']
@@ -13,6 +16,7 @@ def loginRequired(fun):
             if decode:
                 user = User.query.filter_by(id=decode['id']).first()
                 if user:
+                    #calling actual function "fun" inside wrapper function
                     return fun(user.id, *args, **kwargs)
                 else:
                     return " 1....Unauthorized user"

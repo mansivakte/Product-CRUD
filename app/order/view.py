@@ -7,8 +7,11 @@ from app.orderdetails.model import Orderdetails
 from app.product.model import Product
 from app.common import loginRequired
 
+
+
 order_blueprint = Blueprint('order_blueprint', __name__)
 
+#1. create order
 @order_blueprint.route('/order', methods=['POST'])
 @loginRequired
 def createOrder(userid):
@@ -16,27 +19,27 @@ def createOrder(userid):
 
     payload = request.json
     product = payload['order_details']['product']
-    # print(product)
+    # print("product : ",product)
     total = 0
     for i in product:
-        # print(i['product_id'])
-        prdct = Product.query.filter_by(id=i['product_id']).first()
-        # print("product id: ", prdct.price ,i['qty'] )
-        # print(prdct)
-        total += (prdct.price * i['qty'])
-    print("Total: ", total)
+        # print("product_id : ",i['product_id'])
+        prod = Product.query.filter_by(id=i['product_id']).first()
+        # print("Product details : ",prod)
+
+        total += (prod.price * i['qty'])
+    # print("Total: ", total)
 
     order= Order(amount = total, order_id= str(uuid.uuid1()), order_date=datetime.datetime.now() )
     order.user_id= userid
-    # print("order : ", type(uuid.uuid1()))
     db.session.add(order)
     db.session.commit()
-    
-   
-    #2. Order details
 
+
+    #2. Create Entry in Order_Details
     for i in product:
-        prdct = Product.query.filter_by(id=i['product_id']).first()
+        prdct = Product.query.filter_by(id = i['product_id']).first()
+        print(type(prdct))
+        print("1. prod : ", prdct)
         orderdetails = Orderdetails(
             order_id=order.order_id,
             product_id = i['product_id'],
@@ -44,26 +47,20 @@ def createOrder(userid):
             product_qty = i['qty'],
             total_price = (prdct.price * i['qty'])
         )
-        quantity = int(prdct.quantity) - int(i['qty']) 
+        print("2. orderdetails",orderdetails)
+        print("3. ", prdct)
+        print("4 . ", type(i['qty']))
+        quantity = int(prdct.quantity) - int(i['qty'])
         prdct.quantity = quantity
+        print("5. quantity :", quantity)
+    
 
-        print('orderdetails : ',orderdetails)
+    
         db.session.add(orderdetails)
         db.session.commit()
 
-    #3. remaining quantity = total qty - ordered qty
+    return {"status": "order is created"}
 
-    # for i in product:
-    #     prodct = Product.query.filter_by(id=i['product_id']).first()
-        
-    #     quantity = int(prodct.quantity) - int(i['qty']) 
-    #     prodct.quantity = quantity
-
-        
-    #     # db.session.add(product)
-    #     db.session.commit()
-    return {"status": "executed"}
-   
 
 @order_blueprint.route('/order', methods=['GET'])
 def getOrder():
@@ -97,5 +94,3 @@ def getOrderdetails():
         
         odr.append(a)
     return {"data": odr}
-           
-        

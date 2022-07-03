@@ -1,3 +1,4 @@
+
 import os
 import datetime
 from flask import Blueprint, request
@@ -103,6 +104,7 @@ def deleteProduct(userid,id):
         print("delere error", e) 
         return {'status': False, 'message':'something went wrong', 'data':None }
 
+# upload image
 @product_blueprint.route('/product/upload', methods=['POST'])
 @adminlogin
 def upload():
@@ -114,3 +116,6 @@ def upload():
         file.save(os.path.join('app','uploads',filename))
     return {'imagepath': '/product/upload/'+filename}
    
+
+
+

@@ -32,7 +32,7 @@ def register():
             return {'Message': 'Email ID already registered'}, 200
         else:
             user_password = generate_password_hash(payload['password'])
-            user = User(email = payload['email'], password = user_password, firstName=payload['firstName'], lastName=payload['lastName'], admin = False)
+            user = User(email = payload['email'], password = user_password, firstName=payload['firstName'], lastName=payload['lastName'], admin = True)
             db.session.add(user)
             db.session.commit()
             return {'Status':'Registered Successfully'}, 201
@@ -60,7 +60,7 @@ def login():
 @user_blueprint.route('/dashboard', methods=['GET'])
 @loginRequired
 def dashboard(id):
-    print(id)
+    
     return "User Dashboard Page"
 
 
